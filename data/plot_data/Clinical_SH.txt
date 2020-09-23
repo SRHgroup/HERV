@@ -1,0 +1,17 @@
+patient	Disease (WHO Classification )	Gender	Age	Hb (g/L)	ANC (x10^9/L)	Pt (x10^9/L)	Cytogenetics	IPSS-R (MDS) or CPSS (CMML)	Score 	Risk	Risk_binary	Response
+PD7151	CMML	M	70	120	0.7	86	NORMAL	Score= 0/Low Risk	0	Low	Low	CR
+PD7152	CMML	F	65	91	24.1	442	NORMAL	Score=2/Intermediate-2	2	Intermediate	Increased	SD
+PD7153	CMML	F	70	90	0.48	20	NORMAL	Score=1/Intermediate-1	1	Intermediate	Low	CR
+PD7155	CMML	F	70	87	3.1	15	der(7) t(7;10) trisomy 8	Score= 4/High Risk	4	High	Increased	CR
+PD7156	CMML	M	70	65	17	56	5/100 Trisomy 21	Score 4= High Risk	4	High	Increased	CR
+PD7157	CMML	M	59	98	3.6	169	NORMAL	Score=2/Intermediate-2	2	Intermediate	Increased	CR
+PD7158	CMML	M	68	105	30.9	51	trisomy 8	Score=4/High Risk	4	High	Increased	SD
+PD7160	MDS/RAEB-2	M	73	127	0.9	57	Normal	Score=4.5/Intermediate	4.5	Intermediate	Increased	CR
+PD7161	MDS/RAEB-2	F	75	82	0.4	88	NORMAL	Score=5/High	5	High	Increased	CR
+PD7163	MDS/RAEB-2	F	69	88	0.4	32	11 q deletion. Loss of MLL signal (by FISH)	Score=5.5/High	5.5	High	Increased	CR
+PD7164	MDS/RAEB-2	M	75	110	0.9	104	NORMAL	Score=4/Intermediate	4	Intermediate	Increased	CR
+PD7165	MDS/RAEB-2	M	73	121	46.4	132	NORMAL	Neutrophils>8x 10^9	NA	NA	NA	CR
+PD7166	MDS/RAEB-2	M	69	128	6.36	193	trisomy 8	Score=5/High	5	High	Increased	SD
+PD7167	MDS/RAEB-2	F	68	71	0.34	22	NORMAL	Score= 7 /Very High	7	Very High	Increased	SD
+PD7168	MDS/RAEB-2	F	77	84	1.9	115	46,XX,del(7)(q22),der(12)inv(12)(q13q24.1)t(5;12)(q12;q24.1)[8]/47,sl,+8[4]/46,sl,del(13)(q12q14)[3]/46,XX[8]	Score=8/Very High	8	Very High	Increased	CR
+PD7169	MDS/RCMD	M	75	84	1.6	337	47,sl,+8[4]/46,sl,del(13)(q12q14)[3]/46,XX[8]	Score=6/High	6	High	Increased	SD
