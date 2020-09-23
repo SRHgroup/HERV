@@ -1,6 +1,13 @@
 ---
 title: "Herv "
-output: github_document
+author: "Annie Borch"
+date: "`r Sys.Date()`"
+output: github_document:
+    df_print: paged
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: cosmo
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->

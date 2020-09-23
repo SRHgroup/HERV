@@ -34,24 +34,21 @@ library(ggplotify)
 
 # Load data 
 # ----------------------
-#dir <- '/Volumes/department/Public/Afdeling-for-Immunologi-Vaccinologi/SRH group/Group members/Sunil+AM/HERV/'
-dir <- '/Volumes/SUND/Public/T-cells-and-cancer/SRH group/Group members/Sunil+AM/HERV/'
-setwd(dir)
 
-load(paste(dir, 'data/plot_data/2019.08.25.HERV_barcode.RData', sep = ''))
-load(paste(dir, 'data/plot_data/expression.RData', sep = ''))
-clin_HHRH <- read.table(paste(dir,'data/plot_data/2018.11.08.clinical_HHRH.txt', sep = ''), sep = '\t', header = TRUE, stringsAsFactors = FALSE)
-clin_SH <- read.table(paste(dir,'data/plot_data/clinical_SH.txt', sep = ''), sep = '\t', header = TRUE, stringsAsFactors = FALSE)
+load('data/plot_data/2019.08.25.HERV_barcode.RData')
+load( 'data/plot_data/expression.RData')
+clin_HHRH <- read.table('data/plot_data/2018.11.08.clinical_HHRH.txt', sep = '\t', header = TRUE, stringsAsFactors = FALSE)
+clin_SH <- read.table('data/plot_data/clinical_SH.txt', sep = '\t', header = TRUE, stringsAsFactors = FALSE)
 
 # load in HERv expression gene list 
 HERV_library_postive <-read.xlsx('data/HERV expression and T cell_Sunil 29042019.xlsx', sheet = 7)
 HERV_library_postive$hugo_symbol
 
 # load AMP expression
-load(paste(dir,'data/plot_data/APM_expression_data.RData', sep = ''))
+load('data/plot_data/APM_expression_data.RData')
 
 # load CTA expression 
-load(paste(dir,'data/plot_data/CTA_expression_data.RData', sep = ''))
+load('data/plot_data/CTA_expression_data.RData')
 
 
 
