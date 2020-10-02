@@ -1,7 +1,9 @@
 # Anne-Mette 
 # 2017.11.20
 # R version: 3.6.2
-# edited: 2020.03.23
+# 
+# edited: 2020.10.02
+# by Annie Borch 
 
 # -------------------------
 # Plotting for the ERV manuscript 
@@ -35,20 +37,20 @@ library(ggplotify)
 # Load data 
 # ----------------------
 
-load('data/plot_data/2019.08.25.HERV_barcode.RData')
-load( 'data/plot_data/expression.RData')
-clin_HHRH <- read.table('data/plot_data/2018.11.08.clinical_HHRH.txt', sep = '\t', header = TRUE, stringsAsFactors = FALSE)
-clin_SH <- read.table('data/plot_data/clinical_SH.txt', sep = '\t', header = TRUE, stringsAsFactors = FALSE)
+load('data/plot_data/Barcode_data/2019.08.25.HERV_barcode.RData')
+load( 'data/plot_data/expression_data/expression.RData')
+clin_HHRH <- read.table('data/raw_data/Clinical_data/2018.11.08.clinical_HHRH.txt', sep = '\t', header = TRUE, stringsAsFactors = FALSE)
+clin_SH <- read.table('data/raw_data/Clinical_data/clinical_SH.txt', sep = '\t', header = TRUE, stringsAsFactors = FALSE)
 
 # load in HERv expression gene list 
-HERV_library_postive <-read.xlsx('data/HERV expression and T cell_Sunil 29042019.xlsx', sheet = 7)
+HERV_library_postive <-read.xlsx('data/raw_data/HERV expression and T cell_Sunil 29042019.xlsx', sheet = 7)
 HERV_library_postive$hugo_symbol
 
 # load AMP expression
-load('data/plot_data/APM_expression_data.RData')
+load('data/plot_data/expression_data/APM_expression_data.RData')
 
 # load CTA expression 
-load('data/plot_data/CTA_expression_data.RData')
+load('data/plot_data/expression_data/CTA_expression_data.RData')
 
 
 
@@ -213,7 +215,7 @@ HERV_library_size <- barcode_dat %>%
 HERV_library_size <- HERV_library_size %>% mutate(sum = rowSums(.[2:5], na.rm = TRUE))
 
 # write to excel file 
-write.xlsx(HERV_library_size, file='data/HERV_peptide_library_size.xlsx')
+write.xlsx(HERV_library_size, file='results/tables/HERV_peptide_library_size.xlsx')
 
 
 
@@ -257,7 +259,7 @@ mean_exp_pr_patient_vec <- setNames(mean_exp_pr_patient$mean_exp, mean_exp_pr_pa
 herv_exp_pr_patient$mean_exp <- mean_exp_pr_patient_vec[herv_exp_pr_patient$id]
 
 # write to excel file 
-write.xlsx(herv_exp_pr_patient, file = 'data/HERV_expression_pr_patient.xlsx')
+write.xlsx(herv_exp_pr_patient, file = 'results/tables/HERV_expression_pr_patient.xlsx')
 
 # ---------------------------------
 
@@ -427,21 +429,6 @@ ggdraw() +
 dev.off()
 
 
-
-# TEST
-# Log2FC of grey values 
-# head(barcode_dat)
-# barcode_dat[barcode_dat$HLAallele == 'HLA-A02:01' &
-#                 barcode_dat$Peptide %in% c('YMRTLLDSI', 'YLKACLTVL') &
-#                 barcode_dat$sample %in% c('BC100','HH12C1D1','SH7157C1D1', 'SH7163C1D1', 'SH7164C1D1', 'HH12C3D1', 'SH7157C4D28', 'SH7163C6D28','SH7169C4D1', 'HH18C2D5','BC303'),
-#             c('sample','HLAallele','Peptide','count.1','log_fold_change','signif')]
-
-
-
-
-
-
-
 # ------------------------------------
 
 #           FIGURE 5 
@@ -457,7 +444,6 @@ plot_exp_pr_erv <- final_exp_plot[!final_exp_plot$patient  %in% c('SH7154', 'SH7
 # generate data frame for statistical plotting 
 plot_exp_pr_erv_exponential <- plot_exp_pr_erv %>% mutate(mean_exp = 10^(mean_exp + 0.05))
 
-round(p.adjust(0.008, "BH"), 3)
 # plot data 
 p1 <- ggplot(plot_exp_pr_erv, aes(x = treatment, y = mean_exp + 0.05)) +
     geom_quasirandom(aes(colour = treatment), size = 1, alpha = .6)  +
@@ -491,7 +477,6 @@ p1 <- ggplot(plot_exp_pr_erv, aes(x = treatment, y = mean_exp + 0.05)) +
 theme(axis.text.x = element_blank(),
       axis.text.y = element_blank()
       )
-ggsave(p1, file = "results/Paper_plots/fig_5_A.wilcox.test.pdf", , width = 6, height  = 6)
 
 # calculate wilcox test 
 for(p in c('SH7151', 'SH7163', 'SH7167', 'SH7161')){
@@ -506,25 +491,6 @@ plot_exp_pr_erv %>% subset(treatment %in% c('Healthy', 'After Treatment')) %>% w
 plot_exp_pr_erv %>% subset(treatment %in% c('Healthy', 'Before Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = .)# run test 
 plot_exp_pr_erv %>% subset(treatment %in% c('Before Treatment', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = ., paired = TRUE)# run test 
     
-
-# Figure 5B
-# --------------------------------
-
-# VIRKER MEN GIVER FORKERTE TAL ..... PASSER IKKE
-# 
-# herv_exp_pr_patient[!is.na(herv_exp_pr_patient$mean_exp), ]
-# 
-# p2 <- ggplot(herv_exp_pr_patient, aes(x = mean_exp, y = ResponseFraction)) +
-#     geom_point(aes(colour = treatment), size = 3, alpha = .6) +
-#     scale_y_log10()+#breaks = c(.1, 1, 10, 100,1000), labels = c('0.1', '1', '10', '100', '1000')) + 
-#     scale_x_log10()+#breaks = c(.1, 1, 10, 100,1000), labels = c('0.1', '1', '10', '100', '1000')) + 
-#     annotation_logticks(sides = 'lb', colour = '#969696') +
-#     scale_color_manual(values = c('#d4b9da','#AA3377')) +
-#     # labs(y = 'HERV Expression (TPM)', x = '') +
-#     theme_classic( base_size = 15) +
-#     theme(legend.position = 'none')
-    
-
 
 # Figure 5C 
 # --------------------------------
@@ -655,7 +621,7 @@ max(foldchange_before_healthy)
 
 # Make one plot 
 # --------------------------------
-pdf('results/Paper_plots/Figure5_new.pdf', width = 14, height  = 18)
+pdf('results/Paper_plots/Figure5.pdf', width = 14, height  = 18)
 ggdraw() +
     draw_plot(p1, x=0.03, y=.725, width = .38, height = .26) +
     draw_plot(p2, x=.75, y=.7, width = .2, height = .28) +
@@ -686,9 +652,14 @@ dev.off()
 # ------------------------------------
 
 
-
 # ------------------------------------
 # Supplementary figure 1
+# ------------------------------------
+# MISSING
+
+
+# ------------------------------------
+# Supplementary figure 2
 # ------------------------------------
 # Heatmap of T cell peptides screened all for each HLA alllele 
 
@@ -739,7 +710,7 @@ p3 <- hlaplot_all(barcode_dat, 'HLA-B07:02')
 p4 <- hlaplot_all(barcode_dat, 'HLA-B08:01')
 
 # Make one plot  
-pdf('results/Paper_plots/FigureS1.pdf', width = 10, height  = 13)      
+pdf('results/Paper_plots/FigureS2.pdf', width = 10, height  = 13)      
 ggdraw() +
     draw_plot(p1, 0, .55, .47, .45) +
     draw_plot(p2, .5, .55, .47, .45) +
@@ -763,53 +734,119 @@ dev.off()
 
 
 
- # ------------------------------------
-# Supplementary figure 5
+# ------------------------------------
+# Supplementary figure S5
 # ------------------------------------
 # Transcript level expression plots 
 
-# Expression heatmap (TPM) on transcript level 
-p <- ggplot(plot_exp, aes(patient, accession_number)) + 
-    geom_tile(aes(fill = mean_exp, colour = "0")) + 
-    scale_fill_distiller('TPM', 		                     
-                         palette = "Spectral", 
-                         trans = "log", 
-                         na.value="#0570b0", 
-                         breaks = c(.1, 1, 10, 100), 
-                         labels = c('0.1', '1', '10', '100')) +
-    scale_colour_manual(values = "white") +
-    theme_grey(base_size = 9) + 
-    labs(x = "", y = "") + 
-    scale_x_discrete(expand = c(0, 0)) +
-    scale_y_discrete(expand = c(0, 0)) + 
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, size=8),
-          axis.text.y = element_text(hjust = 1,vjust = .5),
-          axis.ticks = element_blank(),
-          panel.spacing = unit(0.1, "lines"),
-          strip.text.x = element_text(size = 10), 
-          strip.text.y = element_text(angle = 0, hjust = 0,vjust = .5), 
-          strip.background = element_rect(fill = 'white'),
-          legend.text = element_text(size = 9),
-          legend.margin = margin(0,0,0,0),
-          legend.spacing = unit(0, 'cm'),
-          legend.position = "bottom") +
-    guides(fill = guide_colourbar(order = 2,
-                                  title = '',
-                                  title.position = 'top',
-                                  barwidth = 10),
-           colour = guide_legend(title = 'TPM',
-                                 title.position = 'top',
-                                 override.aes = list(fill = "#0570b0"),
-                                 order = 1,
-                                 label.hjust = .5,
-                                 label.vjust = 1,
-                                 label.position = 'bottom')) +
-    facet_grid(hugo_symbol ~ treatment, drop = T, space = "free", scales = "free",
-               labeller = labeller(treatment = c('Healthy' = 'Healthy donor',
-                                                 'Before Treatment' = 'Patient Pre-AZA', 
-                                                 'After Treatment' = 'Patient Post-AZA')))
-pdf('results/Paper_plots/FigureS5.pdf', width = 7, height = 11)
-print(p)
+
+# Figure S5A
+#.................
+# plot of sum of expression of ervs acoress all patients (each dot is an HERV) 
+exp_pr_erv_exponential <- exp_pr_erv %>% mutate(mean_exp = 10^(mean_exp + 0.01))
+
+p1 <- ggplot(exp_pr_erv, aes(x = treatment, y = mean_exp + 0.01)) +
+  geom_quasirandom(aes(colour = treatment), size = 3, alpha = .8)  +
+  geom_boxplot(aes(), alpha = 0) +
+  geom_signif(data = exp_pr_erv_exponential, 
+              comparisons = list(c("Healthy", "After Treatment"),
+                                 c("Healthy", "Before Treatment"),
+                                 c("Before Treatment", "After Treatment")), 
+              test = 'wilcox.test', 
+              test.args = list(paired=F, exact = F),
+              map_signif_level = F, 
+              textsize = 5,
+              # vjust = .5, 
+              y_position= c(3.5, 3.1, 2.9),
+              tip_length = 0) +
+  scale_y_log10(breaks = c(.1, 1, 10, 100,1000), labels = c('0.1', '1', '10', '100', '1000')) + 
+  annotation_logticks(sides = 'l', colour = '#969696') +
+  scale_color_manual(values = c('#e7e1ef', '#d4b9da','#AA3377')) +
+  labs(y = 'HERV expression sum across individual (TPM)', x = '') +
+  theme_classic( base_size = 15) +
+  theme(legend.position = 'none') +
+  scale_x_discrete(labels=c("Healthy\ndonors","Patients\nPre-AZA","Pateints\nPost-AZA")) 
+
+
+# Figure S5B
+#.................
+# aggregate according to sum of expression for all HERVS pr patient 
+exp_pr_patient_2 <- aggregate(mean_exp ~ patient + treatment,  data = exp_pr_patient,FUN = sum) %>% 
+  subset(!patient  %in% c('SH7154', 'SH7162')) # remove patients without after sample 
+
+# generate data frame for statistical plotting 
+exp_pr_patient_2_exponential <- exp_pr_patient_2 %>% mutate(mean_exp = ifelse(mean_exp > 300, 
+                                                                              yes = 10^(300 + 0.01), # if values are above 300 TPM make then 300 to avoid infinite values 
+                                                                              no = 10^(mean_exp + 0.01))) # exponential calculation
+# plot data 
+p2 <- ggplot(exp_pr_patient_2, aes(x = treatment, y = mean_exp + 0.01)) +
+  geom_quasirandom(aes(colour = treatment), size = 3, alpha = .8)  +
+  geom_boxplot(aes(), alpha = 0) +
+  geom_signif(data = exp_pr_patient_2_exponential, 
+              comparisons = list(c("Healthy", "After Treatment"), 
+                                 c("Healthy", "Before Treatment")), 
+              test = 'wilcox.test', 
+              map_signif_level = F, 
+              textsize = 5,
+              test.args = list(paired=F, exact = F),
+              y_position= c(3, 2.8),
+              tip_length = 0) +
+  geom_signif(data = exp_pr_patient_2_exponential, 
+              comparisons = list(c("Before Treatment", "After Treatment")), 
+              test = 'wilcox.test',
+              test.args = list(paired = TRUE, exact = F),
+              map_signif_level = F, 
+              textsize = 5,
+              y_position= 2.7,
+              tip_length = 0) +
+  scale_y_log10(breaks = c(.1, 1, 10, 100,1000), labels = c('0.1', '1', '10', '100', '1000'))+
+  annotation_logticks(sides = 'l', colour = '#969696') +
+  scale_color_manual(values = c('#e7e1ef', '#d4b9da','#AA3377')) +
+  labs(y = 'sum of HERV Expression pr individual (TPM)', x = '') +
+  theme_classic( base_size = 15) +
+  theme(legend.position = 'none') +
+  scale_x_discrete(labels=c("Healthy donors",'Patients\nPre-AZA','Patients\nPost-AZA')) 
+
+# calculate wilcox test 
+exp_pr_patient_2 %>% subset(treatment %in% c('Healthy', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = .)
+exp_pr_patient_2 %>% subset(treatment %in% c('Healthy', 'Before Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = .)
+exp_pr_patient_2 %>% subset(treatment %in% c('Before Treatment', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = ., paired = TRUE)
+
+
+# Figure S5C
+#.................
+
+# Make line plot 
+exp_pr_patient_2_2 <- subset(exp_pr_patient_2, treatment != 'Healthy')
+# plot data 
+p3 <- ggplot(exp_pr_patient_2_2, aes(x = treatment, y = mean_exp)) + 
+  geom_point(size = 3, alpha = .8, aes(colour = patient)) +
+  geom_line(aes(group = patient,colour = patient)) +
+  geom_boxplot(alpha = 0) +
+  scale_colour_manual(values = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928','#000000','#bdbdbd','#02818a', '#e7298a')) +
+  geom_signif(data = exp_pr_patient_2_2, 
+              comparisons = list(c("Before Treatment", "After Treatment")), 
+              test = 'wilcox.test',
+              test.args = list(paired = TRUE),
+              map_signif_level = TRUE, 
+              textsize = 5,
+              y_position= 450,
+              tip_length = 0) +
+  theme_classic( base_size = 15) +
+  labs(y = 'sum of HERV Expression pr patient (TPM)', x = '') +
+  scale_x_discrete(labels=c('Patients\nPre-AZA','Patients\nPost-AZA')) 
+
+# calculate wilcox test 
+exp_pr_patient_2_2 %>% subset(treatment %in% c('Before Treatment', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = ., paired = TRUE)
+
+
+
+pdf('results/Paper_plots/FigureS5.pdf', width = 10, height  = 10)
+ggdraw() +
+  draw_plot(p1, x = 0, y = .5, width = .45, height =  .45) +
+  draw_plot(p2, x = .5, y = .5, width = .45, height =  .45) +
+  draw_plot(p3, x = 0, y = 0, width = .6, height =  .45) +
+  draw_plot_label(c("A", "B", "C"), c(0, .5, 0), c(1, 1, .5), size = 15)
 dev.off()
 
 
@@ -987,220 +1024,132 @@ ggdraw() +
     draw_plot_label(c("A", "B", "C"), c(0, .62, .62), c(1, 1, .66), size = 15)
 dev.off()
 
-
-
-
-
-
-
-
-
-
-
-
-
 # ------------------------------------
 # Supplementary figure S7
 # ------------------------------------
-# Transcript level expression plots 
 
 
-# Figure S7A
-#.................
-# plot of sum of expression of ervs acoress all patients (each dot is an HERV) 
-exp_pr_erv_exponential <- exp_pr_erv %>% mutate(mean_exp = 10^(mean_exp + 0.01))
+#unique(CTA_expression$treatment[CTA_expression$Patient == "SH7161"])
+CTA_expression_sum <-  aggregate(mean_exp ~ Patient+Hugo+treatment,  data = CTA_expression, sum) %>% 
+  mutate(mean_exp = as.numeric(mean_exp))
+CTA_plot <- subset(CTA_expression_sum, treatment %in% c("Healthy","Before Treatment","After Treatment"))
 
-p1 <- ggplot(exp_pr_erv, aes(x = treatment, y = mean_exp + 0.01)) +
-    geom_quasirandom(aes(colour = treatment), size = 3, alpha = .8)  +
-    geom_boxplot(aes(), alpha = 0) +
-    geom_signif(data = exp_pr_erv_exponential, 
-                comparisons = list(c("Healthy", "After Treatment"),
-                                   c("Healthy", "Before Treatment"),
-                                   c("Before Treatment", "After Treatment")), 
-                test = 'wilcox.test', 
-                test.args = list(paired=F, exact = F),
-                map_signif_level = F, 
-                textsize = 5,
-                # vjust = .5, 
-                y_position= c(3.5, 3.1, 2.9),
-                tip_length = 0) +
-    scale_y_log10(breaks = c(.1, 1, 10, 100,1000), labels = c('0.1', '1', '10', '100', '1000')) + 
-    annotation_logticks(sides = 'l', colour = '#969696') +
-    scale_color_manual(values = c('#e7e1ef', '#d4b9da','#AA3377')) +
-    labs(y = 'HERV expression sum across individual (TPM)', x = '') +
-    theme_classic( base_size = 15) +
-    theme(legend.position = 'none') +
-    scale_x_discrete(labels=c("Healthy\ndonors","Patients\nPre-AZA","Pateints\nPost-AZA")) 
+# Figure S7 A
+#---------------------------------------------------------------------------------------
+### plot tPM 
+S7A <- ggplot(CTA_plot, aes(Patient, Hugo)) + 
+  geom_tile(aes(fill = mean_exp, colour = "0")) + 
+  scale_fill_distiller('TPM', 		                     
+                       palette = "Spectral", 
+                       trans = "log", 
+                       na.value="#0570b0", 
+                       breaks = c(.1, 1, 10, 100), 
+                       labels = c('0.1', '1', '10', '100')) +
+  scale_colour_manual(values = "white") +
+  theme_grey(base_size = 9) + 
+  labs(x = "", y = "") + 
+  scale_x_discrete(expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, size=11),
+        axis.text.y = element_text(hjust = 0),
+        axis.ticks = element_blank(),
+        panel.spacing = unit(0.1, "lines"),
+        strip.text.x = element_text(size = 13), 
+        strip.background = element_rect(fill = 'white'),
+        legend.text = element_text(size = 12),
+        legend.margin = margin(0,0,0,0),
+        legend.spacing = unit(0, 'cm'),
+        legend.position = "bottom") +
+  guides(fill = guide_colourbar(order = 2,
+                                title = '',
+                                title.position = 'top',
+                                barwidth = 10),
+         colour = guide_legend(title = 'TPM',
+                               title.position = 'top',
+                               override.aes = list(fill = "#0570b0"),
+                               order = 1,
+                               label.hjust = .5,
+                               label.vjust = 1,
+                               label.position = 'bottom')) +
+  facet_grid( ~ treatment, drop = T, space = "free", scales = "free")
 
-
-# Figure S7B
-#.................
-# aggregate according to sum of expression for all HERVS pr patient 
-exp_pr_patient_2 <- aggregate(mean_exp ~ patient + treatment,  data = exp_pr_patient,FUN = sum) %>% 
-                        subset(!patient  %in% c('SH7154', 'SH7162')) # remove patients without after sample 
-
-# generate data frame for statistical plotting 
-exp_pr_patient_2_exponential <- exp_pr_patient_2 %>% mutate(mean_exp = ifelse(mean_exp > 300, 
-                                                                              yes = 10^(300 + 0.01), # if values are above 300 TPM make then 300 to avoid infinite values 
-                                                                              no = 10^(mean_exp + 0.01))) # exponential calculation
-# plot data 
-p2 <- ggplot(exp_pr_patient_2, aes(x = treatment, y = mean_exp + 0.01)) +
-    geom_quasirandom(aes(colour = treatment), size = 3, alpha = .8)  +
-    geom_boxplot(aes(), alpha = 0) +
-    geom_signif(data = exp_pr_patient_2_exponential, 
-                comparisons = list(c("Healthy", "After Treatment"), 
-                                   c("Healthy", "Before Treatment")), 
-                test = 'wilcox.test', 
-                map_signif_level = F, 
-                textsize = 5,
-                test.args = list(paired=F, exact = F),
-                y_position= c(3, 2.8),
-                tip_length = 0) +
-    geom_signif(data = exp_pr_patient_2_exponential, 
-                comparisons = list(c("Before Treatment", "After Treatment")), 
-                test = 'wilcox.test',
-                test.args = list(paired = TRUE, exact = F),
-                map_signif_level = F, 
-                textsize = 5,
-                y_position= 2.7,
-                tip_length = 0) +
-    scale_y_log10(breaks = c(.1, 1, 10, 100,1000), labels = c('0.1', '1', '10', '100', '1000'))+
-    annotation_logticks(sides = 'l', colour = '#969696') +
-    scale_color_manual(values = c('#e7e1ef', '#d4b9da','#AA3377')) +
-    labs(y = 'sum of HERV Expression pr individual (TPM)', x = '') +
-    theme_classic( base_size = 15) +
-    theme(legend.position = 'none') +
-    scale_x_discrete(labels=c("Healthy donors",'Patients\nPre-AZA','Patients\nPost-AZA')) 
-
-# calculate wilcox test 
-exp_pr_patient_2 %>% subset(treatment %in% c('Healthy', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = .)
-exp_pr_patient_2 %>% subset(treatment %in% c('Healthy', 'Before Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = .)
-exp_pr_patient_2 %>% subset(treatment %in% c('Before Treatment', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = ., paired = TRUE)
+ggsave(S7A ,
+       file = "results/Paper_plots/FigureS7A.pdf", height = 18, width = 6 )
 
 
-# Figure S7C
-#.................
+# Figure S7 B
+#---------------------------------------------------------------------------------------
+######### fold change before vs healthy ########
+#######------------------------------------------------------------------------
+mean_healthy <- aggregate(mean_exp ~ Hugo, data = subset(CTA_expression_sum, CTA_expression_sum$treatment=="Healthy"), mean) 
+colnames(mean_healthy) <- c("Hugo", "Healthy")
+CTA_expression_before <- subset(CTA_expression_sum, CTA_expression_sum$treatment=="Before Treatment")
 
-# Make line plot 
-exp_pr_patient_2_2 <- subset(exp_pr_patient_2, treatment != 'Healthy')
-# plot data 
-p3 <- ggplot(exp_pr_patient_2_2, aes(x = treatment, y = mean_exp)) + 
-    geom_point(size = 3, alpha = .8, aes(colour = patient)) +
-    geom_line(aes(group = patient,colour = patient)) +
-    geom_boxplot(alpha = 0) +
-    scale_colour_manual(values = c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928','#000000','#bdbdbd','#02818a', '#e7298a')) +
-    geom_signif(data = exp_pr_patient_2_2, 
-                comparisons = list(c("Before Treatment", "After Treatment")), 
-                test = 'wilcox.test',
-                test.args = list(paired = TRUE),
-                map_signif_level = TRUE, 
-                textsize = 5,
-                y_position= 450,
-                tip_length = 0) +
-    theme_classic( base_size = 15) +
-    labs(y = 'sum of HERV Expression pr patient (TPM)', x = '') +
-    scale_x_discrete(labels=c('Patients\nPre-AZA','Patients\nPost-AZA')) 
+CTA_expression_before <- spread(CTA_expression_before, Patient,mean_exp) %>% left_join(mean_healthy, .)
+CTA_expression_before$treatment <- NULL
 
-# calculate wilcox test 
-exp_pr_patient_2_2 %>% subset(treatment %in% c('Before Treatment', 'After Treatment')) %>% wilcox.test(mean_exp ~ treatment, data = ., paired = TRUE)
-
+# calculate logfold change comaparing mean healthy for alle patinets before treatment¨
+foldchange_before_healthy <- data.frame()
+count=0
+for (col in colnames(CTA_expression_before[,3:length(colnames(CTA_expression_before))])) {
+  count=count+1
+  name <- paste0(col,"foldchange",sep="_")
+  name <- log_fold(CTA_expression_before[col]+0.001, CTA_expression_before$Healthy+0.001)
+  if (count==1) {
+    foldchange_before_healthy <- cbind(CTA_expression_before$Hugo, name)
+  }
+  else {
+    foldchange_before_healthy <- cbind(foldchange_before_healthy,name)
+  }
+  
+}
+# 
+rownames(foldchange_before_healthy) <- foldchange_before_healthy$`CTA_expression_before$Hugo`
+foldchange_before_healthy$`CTA_expression_before$Hugo` <- NULL
 
 
-pdf('results/Paper_plots/FigureS7.pdf', width = 10, height  = 10)
-ggdraw() +
-    draw_plot(p1, x = 0, y = .5, width = .45, height =  .45) +
-    draw_plot(p2, x = .5, y = .5, width = .45, height =  .45) +
-    draw_plot(p3, x = 0, y = 0, width = .6, height =  .45) +
-    draw_plot_label(c("A", "B", "C"), c(0, .5, 0), c(1, 1, .5), size = 15)
-dev.off()
+foldchange_before_healthy[foldchange_before_healthy[,1:length(colnames(foldchange_before_healthy))]>5] <- 5 
+foldchange_before_healthy[foldchange_before_healthy[,1:length(colnames(foldchange_before_healthy))] < (-5)]  <- -5
+
+## calclulate mean and take all with mean above 0 out 
+up_down_CTA_before_healthy <- as.data.frame(rowMeans(foldchange_before_healthy)[rowMeans(foldchange_before_healthy) > 0 ])
+CTA_foldchange_before_healthy_pheat <- foldchange_before_healthy[rownames(foldchange_before_healthy) %in% rownames(up_down_CTA_before_healthy),]
+
+pmap_CTA_before_healthy <- pheatmap(CTA_foldchange_before_healthy_pheat, fontsize_col=14 , fontsize_row=14)
+
+ggsave(pmap_CTA_before_healthy,
+       file = "results/Paper_plots/FigureS7B.pdf", height = 12, width = 8 )
 
 
 
 
+# Figure S7 C
+#---------------------------------------------------------------------------------------
+# logfold change 
+#-----------------------------
+
+CTA_expression_before_after_df <- CTA_expression_sum %>% 
+  filter(treatment %in% c("Before Treatment", "After Treatment")) %>% 
+  pivot_wider(values_from = mean_exp, names_from = treatment) %>% 
+  mutate(fold_change_b_a = log_fold(`After Treatment`+0.001,`Before Treatment`+0.001))
+
+
+###### for pheatmap 
+CTA_expression_before_after_pheat <- CTA_expression_before_after_df[, c("Patient", "Hugo","fold_change_b_a")]
+CTA_expression_before_after_pheat$fold_change_b_a <- as.numeric(CTA_expression_before_after_pheat$fold_change_b_a)
+CTA_expression_before_after_pheat <- spread(CTA_expression_before_after_pheat,Patient,fold_change_b_a)
+rownames(CTA_expression_before_after_pheat) <- CTA_expression_before_after_pheat$Hugo
+CTA_expression_before_after_pheat$Hugo <- NULL
+CTA_expression_before_after_pheat <- CTA_expression_before_after_pheat[!colnames(CTA_expression_before_after_pheat) %in% c("SH7154","SH7162")]
+## calclulate mean and take all with mean above 0 out 
+up_down_CTA_before_after <- as.data.frame(rowMeans(CTA_expression_before_after_pheat)[rowMeans(CTA_expression_before_after_pheat) > 1 ])
+CTA_expression_before_after_pheat <- CTA_expression_before_after_pheat[rownames(CTA_expression_before_after_pheat) %in% rownames(up_down_CTA_before_after),]
+pmap_CTA_before_after <- pheatmap(CTA_expression_before_after_pheat, fontsize_col=14, fontsize_row=14)
+ggsave(pmap_CTA_before_healthy,
+       file = "results/Paper_plots/FigureS7C.pdf", height = 12, width = 8 )
 
 
 
-
-
-
-
-
-
-
-
-
-# ------------------------------------
-# Supplementary figure S9
-# ------------------------------------
-#  APM genes 
-# ------------------------------------
-
-# Fig S9A
-# ------------------------------------
-# heatmap of antigen presentation pathway (AMP) genes 
-# subset data 
-PLOTTING_data_APM <- APM_expression %>% aggregate(mean_exp ~ treatment + Hugo + Patient, data = ., sum)
-
-plot_APM <- subset(PLOTTING_data_APM, treatment %in% c('Healthy', 'Before Treatment', 'After Treatment'))
-# plot heatmap   
-p1 <- ggplot(plot_APM, aes(Patient, Hugo)) + 
-    geom_tile(aes(fill = mean_exp, colour = "0")) + 
-    scale_fill_distiller(name = "TPM", 
-                         palette = "Spectral", 
-                         trans = "log", 
-                         na.value="#0570b0", 
-                         breaks = c(0,0.05,0.5,5,50,1000), 
-                         labels =c("0","0.05","0.5","5","50","1000") ) +
-    scale_colour_manual(values = "white") +
-    theme_grey(base_size = 9) + 
-    labs(x = "", y = "") + 
-    scale_x_discrete(expand = c(0, 0)) +
-    scale_y_discrete(expand = c(0, 0)) + 
-    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5),
-          axis.text.y = element_text(hjust = 0),
-          axis.ticks = element_blank(),
-          panel.spacing = unit(0.1, "lines"),
-          strip.text.x = element_text(size = 13), 
-          strip.background = element_rect(fill = 'white'),
-          legend.text = element_text(size = 9),
-          legend.position = "bottom") +
-    guides(fill = guide_colourbar(order = 1), colour = guide_legend(title = NULL, override.aes = list(fill = "#0570b0"), order = 2)) +
-    facet_grid( ~ treatment, drop = T, space = "free", scales = "free",
-                labeller = labeller(treatment = c('Healthy' = 'Healthy donor',
-                                                  'Before Treatment' = 'Patient Pre-AZA', 
-                                                  'After Treatment' = 'Patient Post-AZA')))
-
-# Fig S9B
-# ------------------------------------
-# plot avarage dot plot 
-p2 <- ggplot(plot_APM, aes(x = treatment, y = mean_exp + 0.01)) +
-    geom_quasirandom(aes(colour = treatment), size = 1, alpha = .6)  +
-    geom_boxplot(aes(), alpha = 0) +
-    geom_signif(data = exp_pr_erv_exponential, 
-                comparisons = list(c("Healthy", "After Treatment"),
-                                   c("Healthy", "Before Treatment"),
-                                   c("Before Treatment", "After Treatment")), 
-                test = 'wilcox.test', 
-                test.args = list(paired=TRUE),
-                map_signif_level = TRUE, 
-                textsize = 3,
-                # vjust = .5, 
-                y_position= c(4.4, 3.9, 3.7),
-                tip_length = 0) +
-    scale_y_log10(breaks = c(.1, 1, 10, 100,1000, 10000), labels = c('0.1', '1', '10', '100', '1000','10000')) + 
-    annotation_logticks(sides = 'l', colour = '#969696') +
-    scale_color_manual(values = c('#ABABA9', '#d4b9da','#AA3377')) +
-    labs(y = 'Sum of APM Expression (TPM)', x = '') +
-    theme_classic(base_size = 13) +
-    theme(legend.position = 'none') +
-    scale_x_discrete(labels=c("Healthy\ndonors","Patients\nPre-AZA","Pateints\nPost-AZA")) 
-
-pdf('results/Paper_plots/FigureS9.pdf', width = 10, height  = 8)
-ggdraw() +
-    draw_plot(p1, 0,  0, .57, .99) +
-    draw_plot(p2, .62, .46, .38, .5) +
-    draw_plot_label(c("A", "B"), c(0, .62), c(1, 1), size = 15)
-dev.off()
 
 
 

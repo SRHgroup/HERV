@@ -11,7 +11,7 @@
 # LOAD Data
 # ---------------------------
 
-load('Volumes/SUND/Public/T-cells-and-cancer/SRH group/Group members/Sunil+AM/HERV/data/raw_data/ERV_expression.RData')
+load('data/raw_data/Expression_data/ERV_expression.RData')
 
 
 str(erv_expression)
@@ -76,7 +76,7 @@ erv_expression$treatment <- factor(erv_expression$treatment, levels=c("Healthy",
 erv_exp_dat <- erv_expression
 
 
-#save( erv_exp_dat , file ='/Volumes/vet/Public/Afdeling-for-Immunologi-Vaccinologi/SRH group/Group members/Sunil+AM/HERV/data/plot_data/expression.RData')
+save( erv_exp_dat , file ='data/plot_data/expression_data/expression.RData')
 
 
 
@@ -102,7 +102,7 @@ erv_exp_dat <- erv_expression
 # LOAD Data
 # ---------------------------
 
-load('/Volumes/SUND/Public/T-cells-and-cancer/SRH group/Group members/Sunil+AM/HERV/data/raw_data/APM_expression.RData')
+load('data/raw_data/Expression_data/APM_expression.RData')
 
 str(APM_exp)
 head(APM_exp)
@@ -171,7 +171,7 @@ APM_exp$treatment <- factor(APM_exp$treatment, levels=c("Healthy","Before Treatm
 # Save new DF
 # ---------------------------
 APM_expression <- APM_exp
-save(APM_expression, file = '/Volumes/SUND/Public/T-cells-and-cancer/SRH group/Group members/Sunil+AM/HERV/data/plot_data/APM_expression_data.RData')
+save(APM_expression, file = 'data/plot_data/expression_data/APM_expression_data.RData')
 
 
 
@@ -185,7 +185,7 @@ length(unique(APM_expression$treatment))
 # Handle Data CTA genes 
 # ---------------------------
 
-load('/Volumes/SUND/Public/T-cells-and-cancer/SRH group/Group members/Sunil+AM/HERV/data/raw_data/CTA_expression.Rdata')
+load('data/raw_data/Expression_data/CTA_expression.Rdata')
 
 # make expression values nueric 
 CTA_exp$mean_exp <- as.numeric(CTA_exp$mean_exp)
@@ -247,7 +247,7 @@ CTA_exp$treatment <- factor(CTA_exp$treatment, levels=c("Healthy","Before Treatm
 # ---------------------------
 CTA_expression <- CTA_exp
 
-save(CTA_expression, file = '/Volumes/SUND/Public/T-cells-and-cancer/SRH group/Group members/Sunil+AM/HERV/data/plot_data/CTA_expression_data.RData')
+save(CTA_expression, file = 'data/plot_data/expression_data/CTA_expression_data.RData')
 
 
 
