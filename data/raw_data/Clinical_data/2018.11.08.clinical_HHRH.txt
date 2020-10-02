@@ -1,0 +1,27 @@
+Pt-no	Age	Age at AZA-start	Time until AZA (months)	Sex	WHO	Therapy-related	IPSS	IPSS-R	Risk_binary	Cytogenetics	Prior ther.	AZA-cycles	OS	Allo-HCT after aza	Responder	Non-responder	Comments
+RH_7	83	83	1	F	RAEB-II	FALSE	HR	Very high	Increased	Intermediate	FALSE	17	alive	FALSE	TRUE	FALSE	Survival from 25-01-2016, i.e. 505 days until 14-06-2017
+RH_12	55	55	1	M	RAEB-II	FALSE	INT-2	High	Increased	Good	FALSE	3	alive	TRUE	FALSE	TRUE	Allo-HCT date: 03-08-2016. Should be censored at this date, ie after 107 days (from 18-04-2016)
+RH_74	63	65	15	F	RA	FALSE	INT-1	Intermediate	Increased	Intermediate	TRUE	6	309	FALSE	TRUE	FALSE	
+RH_91	53	54	9	M	AML	FALSE	HR	Very high	Increased	Intermediate	TRUE	6	177	FALSE	TRUE	FALSE	mCR uden HI
+RH_123	67	67	0	F	CMML-II	?	INT-2		Increased	Normal	FALSE	4	208	FALSE	FALSE	TRUE	
+RH_133	57	57	1	M	RAEB-II	FALSE	HR	High	Increased	Intermediate	TRUE	3	179	TRUE	FALSE	TRUE	Allo-HCT date: 08-02--2011. Should be censored at this date, ie after 119 days (from 01-11-2010)
+RH_158	70	71	10	F	RAEB-II	TRUE	INT-2	High	Increased	Very poor	FALSE	4	222	FALSE	FALSE	TRUE	
+RH_O4	64	65	17	F	CMML-II	FALSE	INT-1		Increased	Good	TRUE	14	547	FALSE	TRUE	FALSE	CR
+RH_O10	82	72	0	F	AML (>30%blasts)	FALSE	AML	High	Increased	Poor	FALSE	7	261	FALSE	TRUE	FALSE	
+RH_O13	75	75	0	M	AML (>30%blasts)	FALSE	AML	High	Increased	Poor	FALSE	8	300	FALSE	FALSE	TRUE	
+RH_O34	64	64	0	M	CMML-II	FALSE	INT-2		Increased	Good	FALSE	8	500	TRUE	TRUE	FALSE	Allo-HCT date: 01-04-2012. Should be censored at this date, ie after 363 days (from 04-04-2011)
+RH_A2	77	77	0	M	RAEB-II/AML	FALSE	HR	High	Increased	Good	FALSE	9	348	FALSE	TRUE	FALSE	
+RH_A4	60	60	5	F	RAEB-II	FALSE	INT-1	High	Increased	Very poor	FALSE	10	412	FALSE	TRUE	FALSE	mCR - HI kendes ikke
+RH_77	74	74	0	M	RAEB-I	FALSE	n/a	n/a	NA	n/a	FALSE	2	344	FALSE	NA	NA	
+RH_102	75	75	1	M	RAEB-II	FALSE	HR	Very High	Increased	Intermediate	FALSE	5	406	FALSE	FALSE	TRUE	
+RH_124	51	51	2	F	RCMD	TRUE	INT-2	High	Increased	Poor	FALSE	3	365	TRUE	TRUE	FALSE	Allo-HCT date: 08-12-2010. Should be censored at this date, ie after 100 days (from 30-08-2010)
+RH_138	65	65	0	F	RCMD	TRUE	INT-2	Very High	Increased	Very poor	FALSE	2	77	FALSE	FALSE	TRUE	
+RH_146	74	74	3	M	CMML-II	FALSE	INT-2	Very High	Increased	Intermediate	TRUE	4	347	FALSE	FALSE	TRUE	
+HH_12	78	78	5	M	AML (>30% blast)	FALSE	AML	High	Increased	Normal	TRUE	6	174	FALSE	FALSE	TRUE	
+HH_18	81	81	0	F	RARS	FALSE	INT-2	Intermediate	Increased	Poor	FALSE	2	45	FALSE	NA	NA	Dies from cerebral hemorrhage
+HH_23	48	58	128	F	RARS	FALSE	Low	Low	Low	Normal	TRUE	7	alive	FALSE	FALSE	TRUE	
+HH_24	70	73	47	F	RCUD	FALSE	Low	Low	Low	Normal	TRUE	20	1530	FALSE	FALSE	TRUE	Not enough to qualify as hematologic improvment
+HH_26	55	12	144	M	RARS	FALSE	Low	Low	Low	Normal	TRUE	8	1170	FALSE	FALSE	TRUE	
+HH_20	74	75	10	F	RAEB-II	TRUE	INT-2	Very High	Increased	Poor	FALSE	5	223	FALSE	FALSE	TRUE	
+HH_21	80	80	1	M	AML	TRUE	AML	High	Increased	Poor	FALSE	4	285	FALSE	FALSE	TRUE	
+HH_22	57	62	65	M	RMCD	FALSE	Low	Low	Low	Normal	TRUE	9	alive	FALSE	FALSE	TRUE	Lidt usikker pÌ´ hvordan jeg skal tolke marven. Der er oplyst fra patologen at der ses RCMD i remission efter AZA-kuren. Dette pÌ´ baggrund af at der ses mindere dysplasi end fÌür AZA-kuren. Fortsat blaster < 2. Ingen HI desvÌ_rre.
