@@ -58,36 +58,36 @@ cell cycle
 
 #### Barcode data
 
-All barcode output from the screenings is run with barracoda
-(<https://services.healthtech.dtu.dk/service.php?Barracoda-1.8>) where
-the output is merge into an Rdata file
+Output from the barcode screenings where the results from barracoda
+(<https://services.healthtech.dtu.dk/service.php?Barracoda-1.8>) is
+merge into one Rdata file.
 
 #### Expression data
 
-All extracted genes made from 1.Handle\_expressio\_data.R
+All extracted genes made from 1.Handle\_expression\_data.R
 
 ## Bin
 
 ### 1.Handle\_expressio\_data.R
 
 This script will extract different gene signature and gene sets from the
-RNA data
+RNA data.
 
 ### 2.HERV\_PaperPlots\_FinalRivision.R
 
 This script is used for all plots according to the RNA expression
-profile and T-cell recognition analysis
+profile and T-cell recognition analysis.
 
 ## Results
 
 ### Paper Plots
 
 All plots from made with R from the T-cell recognition analysis and the
-RNA expression profile analysis
+RNA expression profile analysis.
 
 ### Tables
 
-Tables including extra information (not used in the paper)
+Tables including extra information (not used in the paper).
 
 ### Contact informations
 
