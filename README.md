@@ -1,20 +1,26 @@
-Herv
+Human endogenous retroviruses form a reservoir of T cell targets in
+hematological cancers
 ================
 Annie Borch
 Sepetmber 23, 2020
 
   - [Project Overview](#project-overview)
-  - [Data decription](#data-decription)
-  - [Bin Description](#bin-description)
+      - [Abstract](#abstract)
+  - [Description of folder contens](#description-of-folder-contens)
+      - [Data](#data)
+      - [Bin](#bin)
+      - [Results](#results)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## Project Overview
+# Project Overview
 
-Directory for this publication: Human endogenous retroviruses form a
-reservoir of T cell targets in hematological cancers
+This directory contains data, scripts and results made in R from the
+T-cell recognition and RNA expression analysis for this publication:
+Human endogenous retroviruses form a reservoir of T cell targets in
+hematological cancers
 
-### Abstract
+## Abstract
 
 Human endogenous retroviruses (HERV) form a substantial part of the
 human genome, but mostly remain transcriptionally silent under strict
@@ -35,17 +41,32 @@ recognition. Our study thus uncovers T cell recognition of HERVs in
 myeloid malignancies, thereby implicating HERVs as potential targets for
 immunotherapeutic therapies.
 
-## Data decription
+# Description of folder contens
 
-### Raw\_expression\_data
+## Data
 
-All extracted genes made from 1.Handle\_expressio\_data.R.
+### Raw data
+
+#### Expression data
+
+Kallisto is used to find expression from the raw RNA sequencing files.
+Relevant gene sets are filtered from the raw files and saved in these
+Rdata files. \#\#\#\# Clinical data All information about samples and
+cell cycle
 
 ### Plot data
 
-All data used for the final plots
+#### Barcode data
 
-## Bin Description
+All barcode output from the screenings is run with barracoda
+(<https://services.healthtech.dtu.dk/service.php?Barracoda-1.8>) where
+the output is merge into an Rdata file
+
+#### Expression data
+
+All extracted genes made from 1.Handle\_expressio\_data.R
+
+## Bin
 
 ### 1.Handle\_expressio\_data.R
 
@@ -55,7 +76,18 @@ RNA data
 ### 2.HERV\_PaperPlots\_FinalRivision.R
 
 This script is used for all plots according to the RNA expression
-profile and TCR recognition analysis
+profile and T-cell recognition analysis
+
+## Results
+
+### Paper Plots
+
+All plots from made with R from the T-cell recognition analysis and the
+RNA expression profile analysis
+
+### Tables
+
+Tables including extra information (not used in the paper)
 
 ### Contact informations
 
