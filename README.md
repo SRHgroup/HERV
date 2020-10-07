@@ -18,7 +18,9 @@ Sepetmber 23, 2020
 This directory contains data, scripts and results made in R from the
 T-cell recognition and RNA expression analysis for this publication:
 Human endogenous retroviruses form a reservoir of T cell targets in
-hematological cancers
+hematological cancers If you would like to explore the scripts and data
+from the Bayesian analysis see this page:
+<https://github.com/SRHgroup/HERV_Bayesian_analyses>
 
 ## Abstract
 
