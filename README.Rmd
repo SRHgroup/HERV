@@ -63,7 +63,10 @@ Tables including extra information (not used in the paper).
 
 
 ### Contact informations
-- Annie Borch (annbor)  annbor@dtu.dk
+- Annie Borch annbor@dtu.dk
+- Anne-Mette Bjerregaard anne.mette.bjerregaard@gmail.com
+- Sunil Kumar Saini sukusa@dtu.dk
+- Sine Reker Hadrup sirha@dtu.dk
 
 
 

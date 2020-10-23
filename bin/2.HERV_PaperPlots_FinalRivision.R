@@ -655,9 +655,46 @@ dev.off()
 # ------------------------------------
 # Supplementary figure 1
 # ------------------------------------
-# MISSING
+load("data/raw_data/Expression_data/herv.tumornormal.double.Rdata")
 
+# Extract expression 
+# ------------------------
+# Expression above 0.1 
+hervs_expressed <- herv > .1
 
+# bind the matix to the info dataframe 
+herv_wide <- cbind(tissueclass, herv)
+
+# generate long format 
+herv_long <- pivot_longer(herv_wide, colnames(herv), names_to = 'HERV_transkript')
+
+# split information on on herv gene and transcript id 
+herv_long <- separate(herv_long, 
+                      col =  HERV_transkript, 
+                      into = c('HERV', 'transkript'), 
+                      sep = '_')
+
+# avoid debalanced scale 
+herv_long$value[herv_long$value > 1000] <-  1000
+herv_long$value[herv_long$value < 1] <-  NA
+
+# set names 
+status.names <- c('Tumor', 'Normal')
+names(status.names) <- c('T','N')
+# plot data 
+Supplement1 <- herv_long %>% group_by(source,status,code,HERV,transkript) %>% 
+  distinct_all(.,keep_all=TRUE) %>% 
+  ggplot(., aes(tissue,HERV)) + 
+  geom_tile(aes(fill = value)) + 
+  facet_wrap(status ~ ., 
+             scales = 'free_x',
+             labeller = labeller(status = status.names)) +
+  scale_fill_distiller(palette = "Spectral", trans = 'log10', na.value = "white") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90, vjust = .5, hjust = 1),
+        strip.background = element_blank())
+ggsave(Supplement1,
+       file = "results/Paper_plots/FigureS1.pdf", height = 14, width = 8 )
 # ------------------------------------
 # Supplementary figure 2
 # ------------------------------------
